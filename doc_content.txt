@@ -1,0 +1,1445 @@
+
+COLLEGE OF COMPUTING AND INFORMATICS 
+UNIVERSITI TENAGA NASIONAL
+
+
+
+
+
+
+MUHAMMAD NADZRIN SIDQY BIN SUHAIMIZAN
+
+2025/2026
+
+AI CONTENT GENERATOR
+
+
+
+by
+
+
+
+MUHAMMAD NADZRIN SIDQY BIN SUHAIMIZAN
+
+
+
+Project Supervisor: Ts. Dr. Suhaimi Bin Ab. Rahman
+
+
+
+
+PROJECT REPORT SUBMITTED IN PARTIAL FULFILLMENT OF THE
+THE REQUIREMENTS FOR THE BACHELOR OF COMPUTER SCIENCE (SOFTWARE ENGINEERING) (HONS.) 
+UNIVERSITI TENAGA NASIONAL
+2025/2026
+
+APPROVAL PAGE
+TITLE: AI CONTENT GENERATOR
+AUTHOR: MUHAMMAD NADZRIN SIDQY BIN SUHAIMIZAN
+
+
+
+The undersigned certify that the above candidate has fulfilled the condition of the Final Year Project in partial fulfilment for the Bachelor of Computer Science (Software Engineering) (Hons.) 
+
+
+SUPERVISOR: 
+
+Signature: 	_______________________
+Name: 		Ts. Dr. Suhaimi Bin Ab. Rahman
+Date: 		_______________________ 
+
+
+
+
+
+DECLARATION
+I hereby declare that this report, submitted to Universiti Tenaga Nasional as a partial fulfilment of the requirements for the Bachelor of Computer Science (Software Engineering) (Hons.) has not been submitted as an exercise for a bachelor at any other university. I also certify that the work described here is entirely my own except for excerpts and summaries whose sources are appropriately cited in the references.
+
+This report may be made available within the university library and may be photocopied or loaned to other libraries for the purposes of consultation.
+
+26 /12 /2025							
+		
+                                                           	Muhammad Nadzrin Sidqy Bin Suhaimizan
+                                                                                               	BSW01084363
+
+
+ABSTRACT
+The digital media landscape has evolved into a high-velocity environment where journalists and content creators are constantly pressured to produce high-quality, accurately researched articles under tight deadlines. One of the most significant bottlenecks in this process is the "research-to-synthesis" phase, where a writer must locate, read, analyze, and synthesize information from multiple disparate web sources before drafting a narrative. While Generative Artificial Intelligence (GenAI) has made strides in text production, generic models often suffer from "hallucinations" or lack specific context regarding niche current events. This project proposes the development of a specialized AI Content Generator designed specifically for journalists and bloggers. Unlike standard chatbots, this system implements a Retrieval-Augmented Generation (RAG) approach where the user feeds specific URLs as the "ground truth." The system automates the extraction of text from these user-provided links, analyzes the semantic relationships between the different sources, and generates a coherent article draft based strictly on the fed material. By bridging web scraping technologies with Large Language Models (LLM), this application aims to significantly reduce the cognitive load and time required for preliminary drafting, allowing writers to focus on editorial tone and investigative nuance rather than manual compilation.
+
+
+ACKNOWLEDGEMENT
+First and foremost, I would like to express my deepest gratitude to Allah S.W.T for giving me the strength, patience, and determination to complete this Final Year Project and its documentation successfully.
+I would like to extend my sincere appreciation to my project supervisor, Ts. Dr. Suhaimi Bin Ab. Rahman, for his invaluable guidance, continuous encouragement, and constructive feedback throughout the duration of this project. His expertise and advice were instrumental in shaping the direction of the "Draftly" system and refining this Software Requirements Specification.
+I also wish to thank Universiti Tenaga Nasional (UNITEN) and the College of Computing and Informatics (CCI) for providing the necessary facilities and academic environment that made this work possible.
+A special thanks goes to my parents and family members for their endless love, prayers, and sacrifices. Their support has been my greatest motivation during the challenging phases of my studies.
+Finally, I am grateful to my fellow coursemates and friends for their moral support, idea sharing, and willingness to help whenever I faced difficulties.
+Muhammad Nadzrin Sidqy Bin Suhaimizan Bachelor of Software Engineering (Hons) Universiti Tenaga Nasional (UNITEN) December 2025
+
+
+TABLE OF CONTENTS
+	Page
+APPROVAL PAGE	i
+DECLARATION	ii
+ABSTRACT	iii
+ACKNOWLEDGEMENT	iv
+TABLE OF CONTENTS	v
+LIST OF TABLES	vii
+LIST OF FIGURES	viii
+LIST OF ABBREVIATIONS/NOTATIONS/GLOSSARY OF TERMS	ix
+CHAPTER 1	1
+1.1 Project Background	1
+1.2 Problem Statements	2
+1.3 Project Objectives	3
+1.4 Project Scopes	4
+1.5 Expected Outcome	4
+CHAPTER 2	6
+2.1 Introduction	6
+2.2 Related Studies	6
+2.2.1	The Evolution of Automated Journalism	6
+2.2.2   Multi-Document Summarization (MDS) Techniques	7
+2.3.1  Jasper AI	8
+2.3.2 Copy.ai	9
+2.3.3 Frase.io	9
+2.4 Research Gap and Analysis	12
+2.4.1       The "Hallucination-Grounding" Gap	12
+2.4.2       The "Multi-Source Synthesis" Workflow Gap	12
+2.4.3       Comparative Analysis Table	13
+2.5 Chapter Summary	14
+CHAPTER 3	16
+3.1 Requirements Elicitation	16
+3.2 Results and Discussion	18
+3.3 Requirement Specifications	19
+CHAPTER 4	27
+4.1 System Design	27
+4.2 System architecture	27
+4.3 Interface Design	29
+4.4 Database Design	31
+4.4.1 Data Storage Strategy	31
+4.4.2 Entity-Relationship Diagram (ERD)	31
+4.4.3 Data Dictionary	32
+CHAPTER 5	34
+5.1 Introduction	34
+5.2 Development Environment and Tools	34
+5.3 System Implementation Overview	35
+5.4 Core Module Implementation	36
+5.5 Database and Security Implementation	39
+5.6 Chapter Summary	40
+CHAPTER 6	41
+6.1 Introduction	41
+6.2 Testing Strategy	41
+6.3 Test Environment	42
+6.4 Functional Testing	42
+6.5 Integration and API Testing	44
+6.6 Non-Functional Testing	45
+6.7 User Acceptance Testing	46
+6.8 Test Results and Discussion	46
+6.9 Chapter Summary	47
+CHAPTER 7	48
+7.1 Introduction	48
+7.2 Project Achievements	48
+7.3 Limitations	49
+7.4 Future Work	50
+7.5 Conclusion	50
+REFERENCES	i
+APPENDIX A: SOFTWARE REQUIREMENTS SPECIFICATIONS	iv
+
+
+LIST OF TABLES
+Table No	Page
+Table 2.3  Comparison between systems	10
+Table 2.4  Comparative analysis table	13
+Table 3.3.1  Functional requirement	20
+Table 3.3.2  Non-functional requirement	22
+Table 5.1  Development environment and tools	34
+Table 6.1  Testing levels	41
+Table 6.2  Functional test cases	42
+Table 6.3  Non-functional test summary	45
+
+
+
+LIST OF FIGURES
+Figure No	Page
+Figure 3.3.1 Use case diagram	25
+Figure 3.3.2 Context diagram	26
+Figure 4.2 Component relationship	28
+Figure 4.3 Interface design	30
+Figure 4.4 Entitry-Relationship diagram	32
+
+
+
+LIST OF ABBREVIATIONS/NOTATIONS/GLOSSARY OF TERMS
+AI		Artificial Intelligence
+API		Application Programming Interface
+BERT		Bidirectional Encoder Representations from Transformers
+CMS		Content Management System
+DOM		Document Object Model
+GPT		Generative Pre-trained Transformer
+HTML	Hypertext Markup Language
+IEEE		Institute of Electrical and Electronics Engineers
+JSON		JavaScript Object Notation
+LLM		Large Language Model
+MDS		Multi-Document Summarization
+NLG		Natural Language Generation
+NLP		Natural Language Processing
+NLU		Natural Language Understanding
+RAG		Retrieval-Augmented Generation
+ROUGE   	Recall-Oriented Understudy for Gisting Evaluation
+SaaS		Software as a Service
+SEO		Search Engine Optimization
+SRS		Software Requirements Specification
+UAT		User Acceptance Testing
+URL		Uniform Resource Locator 
+
+
+
+
+CHAPTER 1
+INTRODUCTION
+Project Background
+The advent of the Information Age has fundamentally altered the landscape of journalism and digital content creation. We have moved from a scarcity of information to an overwhelming abundance. Today, a single news event or product release is covered by hundreds of disparate sources, each offering different facts, statistics, and perspectives. For professional journalists and bloggers, the core skill set has shifted from simply "finding" news to "synthesizing" it effectively for their audience [1].
+Recent studies in digital media workflows indicate that a significant portion of a writer's time—estimated between 30% to 50%—is spent on the mechanical tasks of reading, cross-referencing, and organizing notes from various web pages before a single sentence of the final draft is written [2]. This high cognitive load contributes to a phenomenon known as "information fatigue," which can degrade the quality of the final output and lead to burnout among professionals.
+Simultaneously, the field of Software Engineering and Artificial Intelligence (AI) has seen a paradigm shift with the introduction of the Transformer architecture in 2017 [3]. These models, which underpin modern Large Language Models (LLMs), have demonstrated unprecedented capabilities in Natural Language Understanding (NLU) and Natural Language Generation (NLG). While these technologies have been widely adopted for simple chatbots and creative writing assistants, their application in rigorous, multi-source journalistic workflows remains an under-explored area of implementation. This project seeks to bridge that gap by applying advanced Software Engineering principles to solve a critical workflow inefficiency in the media sector.
+Problem Statements
+Despite the proliferation of AI writing tools, the specific workflow of multi-source content aggregation remains inefficient and largely manual for professional writers.
+Inefficiency of Manual Synthesis: Journalists and bloggers typically operate with multiple browser tabs open, manually toggling between sources to gather facts. This "context switching" breaks the writer's flow state and significantly slows down the production process [4].
+Lack of Specialized Tools: Existing AI tools (such as ChatGPT or Jasper) generally operate on a "Prompt-to-Text" basis. They are excellent at creative writing from scratch but struggle when a user needs to write a factual report based on specific external articles. There is a lack of accessible tools that allow a user to simply feed multiple URLs and receive a synthesized draft in return.
+Accuracy and Hallucination Risks: When writers rely on generic AI models without providing specific source material, the AI is prone to "hallucinations"—fabricating facts or statistics [5]. There is a critical need for a system that grounds its generation in specific, user-verified links to ensure the content remains factual.
+
+Project Objectives
+The primary aim of this project is to develop a functional web-based application that automates the creation of articles by synthesizing text from multiple user-provided URLs. To achieve the main aim, the following specific objectives have been defined:
+
+To develop a robust Web Scraping Module: To implement algorithms capable of extracting clean, readable text from diverse HTML structures of news websites and blogs, while filtering out noise such as advertisements and navigation menus [6].
+
+To implement Multi-Document Summarization Logic: To engineer a backend pipeline using Natural Language Processing (NLP) that aggregates extracted text, removes redundant information across sources, and generates a cohesive summary.
+
+To design a User-Centric Interface for Writers: To create an intuitive front-end interface where non-technical users (journalists/bloggers) can easily manage their source links, customize the desired tone (e.g., professional, casual, opinionated), and view the generated output for editing.
+To implement a Context-Aware Generation Engine: To integrate a Large Language Model (LLM) utilizing a Retrieval-Augmented Generation (RAG) architecture. This ensures the model processes the extracted text from the user's URLs and synthesizes it into a new article, adhering strictly to the context provided by the feeds.
+
+To evaluate System Performance: To test the system using standard text similarity metrics (ROUGE) and conduct User Acceptance Testing (UAT) to measure the utility and quality of the generated content.
+
+
+Project Scopes
+The scope defines the boundaries of the project to ensure it is achievable within the final year timeframe.
+Target Users: The system is designed specifically for online journalists, tech bloggers, and content marketers.
+Input Data: The system will accept standard HTTP/HTTPS URLs. It is optimized for text-heavy pages (articles, blog posts, wikis).
+Output Language: The system will support processing and generation in the English language only.
+Platform: The solution will be delivered as a responsive Web Application (accessible via browser)..
+
+Expected Outcome
+The completion of this project is expected to deliver a robust solution for automated journalism and content creation. The outcomes are categorized into technical deliverables impact: 
+
+The Draftly Web Application: A high-performance web platform built with Next.js and integrated with Supabase and OpenAI API.
+
+Spider Crawl Module: A specialized web crawling component capable of navigating diverse HTML structures to extract high-quality, relevant text data while bypassing non-essential elements like advertisements and navigation sidebars.
+
+Article Synthesis Engine: A refined prompt-engineering logic that transforms raw, unstructured data from multiple sources into a singular, cohesive article draft tailored to specific tones and lengths.
+
+
+CHAPTER 2
+LITERATURE REVIEW
+
+Introduction
+This chapter provides a critical analysis of the existing literature, theoretical foundations, and similar systems related to AI-driven content generation. The review is categorized into three main sections: the role of AI in modern journalism, the technical evolution of Multi-Document Summarization (MDS), and a comparative review of existing commercial tools. This chapter aims to establish the theoretical framework for the project and identify the "Research Gap" that justifies the development of the proposed system.
+Related Studies
+ 	       2.2.1	The Evolution of Automated Journalism
+The concept of "Automated Journalism," often referred to as "Robot Journalism," has evolved significantly over the past decade. Early implementations, as documented by [7], relied on rigid templates to fill in data for weather reports and sports scores. These systems were rule-based and lacked the ability to generate creative or nuanced text.
+
+However, the field has recently shifted towards "Augmented Journalism." Research by [8] suggests that the goal of modern AI in newsrooms is not to replace human reporters but to augment their capabilities. The study highlights that while AI can process data faster than humans, it lacks the "editorial judgment" and "ethical reasoning" required for final publishing. This literature supports the design philosophy of this project: the system is intended to be a drafting assistant (Human-in-the-loop), not a fully autonomous publisher.
+		     2.2.2   Multi-Document Summarization (MDS) Techniques
+The core technical challenge of this project lies in Multi-Document Summarization (MDS).
+Extractive Summarization: Traditional approaches utilized extractive methods, which algorithmically selected and rearranged the "most important" sentences from the original texts [9]. While computationally efficient, studies show that this method often results in disjointed flow and poor readability.
+Abstractive Summarization: With the rise of Deep Learning, the focus has shifted to abstractive summarization. As detailed in [10], models like BERT (Bidirectional Encoder Representations from Transformers) and GPT (Generative Pre-trained Transformer) can understand the semantic meaning of the text and generate new sentences that capture the essence of the source material. This project will utilize abstractive techniques to ensure the generated blog posts sound natural and human-written.
+A key challenge in MDS identified by [11] is "Redundancy." When summarizing three news articles about the same event, the AI must be smart enough to recognize that all three mention the same core fact and merge them, rather than repeating the fact three times.
+2.3   Existing Systems Review
+To establish the viability of the proposed project, a critical analysis of current market-leading AI content generators was conducted. While numerous tools exist, most are designed for marketing copy (persuasion) rather than journalism (factual synthesis). This section details the features, strengths, and limitations of three prominent systems: Jasper AI, Copy.ai, and Frase.io.
+		          2.3.1  Jasper AI
+Jasper AI is widely considered the market leader in generative AI for enterprise marketing. It utilizes a combination of open-source models (like GPT-4) and proprietary marketing data to generate high-converting copy.
+Core Features: Jasper operates on a "Template" and "Chat" system. Users select a template and input a short text description or keywords. It recently introduced "Brand Voice" to mimic a company's style.
+Strengths: It produces highly creative and grammatically superior text. Its integration with SurferSEO allows marketers to optimize content for Google rankings [12].
+Weaknesses (The Research Gap): Jasper is designed to create ideas, not report on them. It lacks a native workflow for "Multi-Source Synthesis." If a journalist wants to write an article based on three specific news reports, they must manually paste snippets into Jasper's chat window one by one. Furthermore, as a creative tool, it has a high tendency to "hallucinate" (fabricate) quotes and statistics when not strictly grounded in provided text, making it risky for factual news reporting [13].
+
+ 		  2.3.2 Copy.ai
+Copy.ai targets social media managers and freelance copywriters who need rapid, short-form content.
+Core Features: It offers a "Chat" interface similar to ChatGPT but with pre-built prompts for social media captions, email subject lines, and ad copy.
+Strengths: It is extremely user-friendly with a low learning curve. It offers a free tier that makes it accessible to students and hobbyists [14].
+Weaknesses: The system struggles significantly with Long-Form Coherence. While it can write a great Instagram caption, it often loses context when attempting to write a 1,000-word article, resulting in repetitive phrases. Crucially for this project, it does not support a "URL-to-Article" feature where the AI reads a link and writes a report; it relies entirely on the user typing the context manually [15].
+
+ 	      2.3.3 Frase.io
+Frase is the closest technical competitor to the proposed system. It is an SEO-focused tool that helps content strategists research keywords.
+Core Features: Frase can scan the "Top 20 Google Results" for a keyword and extract the headings (H1, H2) to help a user build an outline.
+Strengths: It excels at structural research, helping users understand what topics their competitors are covering.
+Weaknesses: Frase is an SEO tool, not a Writing tool. While it can generate text, its primary goal is "Keyword Stuffing" (ranking high on Google) rather than "Narrative Flow" (readability). It often produces robotic text designed to please search engine algorithms rather than human readers. Additionally, it is expensive (starting at $45/month), placing it out of reach for independent journalists [16].
+
+
+Table 2.3 Comparison between systems
+
+
+
+Research Gap and Analysis
+Despite the rapid advancement of Large Language Models (LLMs) and the availability of commercial writing tools, a critical review of the literature reveals significant gaps when applying these technologies to professional journalistic workflows.
+
+
+2.4.1       The "Hallucination-Grounding" Gap
+
+A primary limitation of current Generative AI models is the phenomenon of "hallucination," where models fabricate facts to satisfy a prompt. Research by Ji et al. (2023) indicates that LLMs prioritize linguistic fluency over factual accuracy when generating text from open-ended prompts [17]. Existing tools like Jasper AI operate on this "open-ended" basis, making them unsuitable for news reporting where factual integrity is paramount. There is a distinct lack of tools that enforce "Source-Grounding"—restricting the AI to generate content only from user-provided URLs.
+
+2.4.2       The "Multi-Source Synthesis" Workflow Gap
+
+While Multi-Document Summarization (MDS) is a well-researched field in academia, practical implementations for non-technical users are scarce. El-Kassas et al. (2021) highlight that most MDS systems are experimental command-line tools that require technical expertise to run [18]. Conversely, commercial tools like Copy.ai focus on single-document processing or creative fiction. There is a "usability gap" for a web-based interface that allows a journalist to input three distinct news sources (e.g., three different URLs reporting on an event) and receive a single, non-redundant synthesized draft.
+
+2.4.3       Comparative Analysis Table
+
+The following table summarizes the key deficiencies in existing systems that the proposed project aims to address:
+
+Table 2.4 Comparative analysis table
+
+
+
+Chapter Summary
+This chapter provided a comprehensive review of the literature surrounding AI in journalism and Multi-Document Summarization.
+
+Section 2.2 established that while AI is increasingly used in newsrooms, current implementations often suffer from "hallucination" and lack the ability to handle complex, multi-source reporting tasks effectively [20].
+
+Section 2.3 analyzed existing tools (Jasper, Copy.ai, Frase), concluding that they are primarily optimized for marketing and SEO, rather than factual news synthesis.
+
+Section 2.4 and 2.5 identified the specific "Research Gap": the need for a user-friendly, web-based system that grounds Generative AI in specific, user-provided URLs to reduce hallucination and streamline the research-to-draft workflow.
+
+This analysis justifies the proposed methodology, which will be detailed in Chapter 3, focusing on a system architecture that combines web scraping with a source-grounded Transformer model.
+
+
+
+
+
+
+
+CHAPTER 3
+REQUIREMENT ANALYSIS
+
+Requirements Elicitation
+The purpose of this chapter is to document the system requirements. To ensure the proposed AI Content Generator effectively solves the problems identified in the Problem Statement, a systematic approach was taken to gather and analyze requirements. Requirement elicitation is the process of identifying the needs of stakeholders to ensure the proposed system solves the correct problem. For this project, a combination of Document Analysis and Competitive Analysis was utilized to gather requirements.
+
+Elicitation Technique(s)
+To gather accurate and comprehensive requirements for the project, two primary elicitation techniques were applied: Document Analysis and Competitive Analysis.
+
+Technique 1: Document Analysis
+How it was conducted: Document analysis involved a thorough review of existing literature, academic papers, and industry reports related to digital journalism workflows and Natural Language Processing (NLP).
+
+Source Selection: Research papers from IEEE and ACM (as cited in the Literature Review) were analyzed to understand the technical challenges of "hallucination" in AI.
+Workflow Study: Online forums (e.g., Reddit’s r/Journalism) and articles discussing "journalist burnout" were reviewed to map out the current manual workflow of content creators.
+Data Extraction: Key pain points—specifically the time cost of reading multiple tabs and the cognitive load of synthesis—were extracted and converted into problem statements.
+
+Technique 2: Competitive Analysis
+How it was conducted: This technique involved a hands-on evaluation of existing market solutions, specifically Jasper.ai and Copy.ai, to identify functional gaps.
+
+Feature Testing: A comprehensive test was conducted by attempting to use these tools for a journalistic task (e.g., "Write a news report based on these three specific links").
+Gap Identification: The limitation that these tools rely heavily on creative prompting rather than factual source-grounding was noted.
+Feature Listing: Essential features found in these tools (like "Tone adjustment") were added to the requirement list, while their weaknesses (lack of URL input) became the core innovation point for
+
+Results and Discussion
+From the Document Analysis, it was found that accuracy and speed are the two most critical factors for journalists. A system that generates text slowly or creates fake quotes (hallucinations) is unusable in a professional newsroom.
+From the Competitive Analysis, a clear gap was identified in the "Input Method."
+
+Existing Tools: 90% of tools start with a blank text box asking for a "Topic."
+User Need: Journalists start with "Sources." They need a tool that starts with input fields for "URLs."
+
+Visual Representation of Findings
+
+Figure 3.1: Comparison of Time Allocation in Content Creation
+
+Manual Workflow: 60% Research/Reading, 30% Drafting, 10% Editing.
+
+Proposed AI Workflow: 10% Inputting Links, 20% AI Processing, 70% Editing/Refining.
+
+Discussion and Impact on FYP2
+The results indicate that the development in FYP2 must prioritize Backend Logic over complex UI design.
+
+Prioritizing the Scraper: Since users start with URLs, the web scraper module (in Next.js) must be robust enough to handle different HTML structures.
+
+Prompt Engineering: To solve the "accuracy" finding, the prompt sent to OpenAI must be strictly engineered to say: "Only use facts from the provided text. Do not invent information."
+
+Simple UI: The analysis shows users are time-poor; therefore, the interface should be a "One-Page Dashboard" rather than a complex multi-page site.
+
+Requirement Specifications
+
+This section details the System Requirement Specifications (SRS) derived from the elicitation phase. These specifications serve as the blueprint for the design and development of the AI Content Generator. The requirements are categorized into Functional Requirements (FR), which define what the system must do, and Non-Functional Requirements (NFR), which define how the system should perform.
+
+3.3.1 Functional Requirements
+
+The functional requirements outline the specific behaviors and functions the system must support to meet the user's needs for multi-source content generation.
+
+Table 3.3.1 Functional requirement
+
+
+
+3.3.2 Non-Functional Requirements
+Non-functional requirements describe the quality attributes of the system, such as performance, reliability, and security.
+
+Table 3.3.2 Non functional requirement
+
+
+3.3.3 System Modelling
+System modelling provides a visual representation of the system's structure, actors, and data flow. This section presents the Use Case Diagram and the Context Diagram (DFD Level 0) to illustrate the system's scope.
+
+a. Use Case Diagram
+The Use Case Diagram depicts the interactions between the primary actor and the system.
+
+Actor: Journalist / Blogger
+System Boundary: AI Content Generator Website
+
+Description of Use Cases:
+Manage Sources: The user adds, removes, or clears target URLs.
+Configure Generation: The user selects the specific tone and length of the article.
+Generate Content: The user triggers the AI process.
+Edit Draft: The user modifies the generated text.
+Export Content: The user saves or copies the result.
+
+
+Figure 3.3.1 Use case diagram
+b. Context diagram
+The Context Diagram illustrates the flow of data between the system and external entities. It defines the scope of the project.
+
+Entities:
+
+User (Journalist): The person interacting with the system.
+Target Websites: The external news sites/blogs being read.
+OpenAI Service: The external AI provider.
+
+Figure 3.3.2 Context diagram
+Discussion of the Proposed System
+The proposed system utilizes a streamlined data flow architecture suitable for rapid content creation. The Context Diagram highlights that the system acts as an intelligent intermediary: it fetches raw data from the web (Target Websites), processes it through an external intelligence engine (OpenAI), and delivers the refined product to the user. This architecture minimizes the need for heavy local database storage, as the primary value is generated through real-time processing and synthesis. The Use Case Diagram confirms that the user experience is focused on simplicity, with the complex scraping and AI logic abstracted away from the user's view.
+CHAPTER 4
+
+SYSTEM DESIGN
+
+  System Design
+The purpose of this chapter is to detail the technical specifications and structural blueprint of the AI Content Generator. This process translates the functional and non-functional requirements (Chapter 3) into a concrete, implementable design. The system design is divided into three key areas: the system architecture, which defines the relationships between components; the interface design, which details the user interaction; and the database design, which outlines data storage and retrieval.
+
+ System architecture
+The system employs a Three-Tier Client-Server Architecture augmented by an external Large Language Model (LLM) service. This design choice is optimal for a web-based AI application as it ensures the security of the proprietary AI key and offloads heavy computational tasks to a dedicated external service (OpenAI), thereby achieving high performance (NFR-01). The system is built using the Next.js framework, which unifies the Presentation and Application layers.The three parts are:
+The system is organized into the following layers:
+Presentation Layer (Frontend): The user-facing component built with Next.js (React). It manages the UI, user input (URLs, tone selection), and displays the final editable draft.
+Application Layer (Backend Logic): Handled by Next.js API Routes. This layer contains the core business logic, including the Web Scraper Module and the OpenAI Controller. This separation is crucial for securing the API key.
+Data Layer (Storage/External Services): This includes the target websites from which data is scraped and the OpenAI API, which acts as the core processing engine.
+The figure below shows how these three parts and the three user roles connect.
+
+
+Figure 4.2 Component Relationship
+Discussion on Component Relationship:
+
+User Interaction (Client): The user submits URLs via the React frontend. This request is sent to a specific Next.js API Route (e.g., /api/generate).
+Web Scraping Module: The backend API Route first invokes the web scraping module. This module executes an external HTTP request to the target URLs to fetch raw HTML. This task is placed on the server-side to bypass browser security restrictions.
+Data Cleaning: The raw HTML is passed through a sanitizer to extract only clean, semantic text, removing all noise.
+AI Controller: The cleaned text is compiled into a single, cohesive System Prompt, which includes instructions on tone (from FR-04) and a directive to avoid hallucination.
+External LLM Processing: The prompt is sent to the OpenAI API. OpenAI performs the complex task of multi-document abstractive summarization.
+Response and Output: The generated text is received by the backend, then passed back to the frontend where it is displayed in the Rich Text Editor (FR-06).
+
+
+
+
+Figure 4.2 System Architecture
+
+Interface Design
+The interface design focuses on achieving high usability (NFR-04) for the target audience of journalists and bloggers. The design utilizes a single-page, three-column layout to facilitate a smooth, linear workflow from input to output.
+The wireframe below illustrates the planned layout of the main content generation dashboard:
+
+Figure 4.3 Interface Design
+
+Discussion on Interaction:
+
+Input Focus (Left Column): This column is dedicated to FR-01 (URL Input) and FR-04 (Tone Selection). The design ensures the user is immediately focused on providing the source material, reinforcing the project's core feature of source-grounded generation.
+Output and Editability (Right Column): The largest section houses the Rich Text Editor (FR-06). Placing the editing functionality immediately next to the generation button minimizes friction and encourages the user to adopt a "Draft, Review, and Edit" workflow, aligning with the "Human-in-the-loop" design philosophy.
+Usability: The interface reduces the number of clicks required to generate content, aiming to satisfy the NFR-04 requirement. The output editor integrates the FR-07 (Export) functionality directly.
+Database Design
+The database design is critical for supporting User Authentication and History Management. The system utilizes Supabase (PostgreSQL) as the cloud database provider. This ensures secure storage for user credentials and scalable storage for generated content.
+4.4.1 Data Storage Strategy
+The system employs a relational database model with two primary responsibilities:
+
+Identity Management: Storing user credentials securely. To adhere to NFR-05 (Security), passwords are never stored in plain text; instead, a secure hash (via Supabase Auth) is stored.
+Content Persistence: Storing the history of generated articles linked to the specific user who created them.
+
+4.4.2 Entity-Relationship Diagram (ERD)
+
+The database consists of two core entities: USERS and DRAFTS. There is a One-to-Many (1:N) relationship between them, meaning One User can create Many Drafts
+
+Figure 4.4: Entity-Relationship Diagram (ERD)
+
+4.4.3 Data Dictionary
+The following tables detail the schema used in the Supabase PostgreSQL database.
+Table : users 
+This table handles authentication and user profile data.
+
+
+
+
+
+Table : drafts 
+This table stores the history of generated content.
+
+CHAPTER 5
+DEVELOPMENT
+
+5.1 Introduction
+
+Chapter 4 presented the system design, architecture, interface wireframes, and database schema for the AI Content Generator (implemented as Draftly). Chapter 5 documents the implementation phase in which the design was translated into a working web application. This chapter describes the development environment, the structure of the codebase, the realisation of each major module, and how functional and non-functional requirements from Chapter 3 were addressed in software.
+
+The implementation follows a full-stack Next.js 15 approach using the App Router, with Supabase for authentication and persistence, Spider.cloud for web content extraction, and OpenAI GPT-4o for source-grounded text synthesis. Development was carried out iteratively: core authentication and draft storage were implemented first, followed by the generation pipeline, research library, templates, user settings, administrative features, and refinements such as multi-language output and undo support.
+
+5.2 Development Environment and Tools
+
+Table 5.1 summarises the primary tools used during development.
+
+Table 5.1 Development environment and tools
+
+ Category | Tool / technology | Purpose |
+----------|-------------------|---------|
+ Language | TypeScript 5 | Type-safe frontend and backend code |
+ Framework | Next.js 15.5 (App Router) | UI pages, server components, API routes |
+ UI | React 19, Tailwind CSS 4 | Component-based interface and styling |
+ Database | Supabase (PostgreSQL) | Auth, drafts, research sources, admin data |
+ ORM / client | @supabase/supabase-js, @supabase/ssr | Server and client database access |
+ Web crawl | Spider.cloud API | Fetch and convert URL content to markdown |
+ AI | OpenAI GPT-4o via Vercel AI SDK | Multi-document synthesis |
+ Validation | Zod | Request body validation on API routes |
+ Version control | Git | Source control and iteration |
+ IDE | Visual Studio Code / Cursor | Development and debugging |
+
+Hardware and OS: Development was performed on a Windows 10/11 workstation with Node.js 20+ installed. The application runs locally via `npm run dev` (default port 3000) and can be deployed to platforms supporting Next.js (e.g. Vercel).
+
+Configuration: Sensitive credentials are stored in a `.env` file and are never committed to version control. Required variables include `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SPIDER_API_KEY`, `OPENAI_API_KEY`, and—for administrative operations—`SUPABASE_SERVICE_ROLE_KEY` and `ADMIN_EMAILS`.
+
+5.3 System Implementation Overview
+
+The implemented system is organised into three logical layers consistent with Chapter 4:
+
+1. Presentation layer — React pages and client components under `src/app` and `src/components`.
+2. Application layer — Next.js API routes under `src/app/api` and business logic under `src/lib`.
+3. Data layer — Supabase PostgreSQL tables with Row Level Security (RLS).
+
+Route structure (journalist workspace): After authentication, users access a shared workspace layout at top-level routes: `/` (home hub), `/drafts` (Overview editor), `/saved-drafts`, `/research`, `/templates`, and `/settings`. Legacy `/dashboard/*` URLs redirect to these paths via middleware.
+
+Route structure (administration): Administrators access `/admin` and sub-routes (`/admin/users`, `/admin/drafts`, `/admin/logs`, `/admin/settings`), protected by middleware and server-side role checks.
+
+Figure 5.1 (recommended for report): Screenshot or diagram of the implemented navigation bar showing Home, Overview, Saved drafts, Research, Templates, Settings, and Admin link.
+
+5.4 Core Module Implementation
+
+5.4.1 User authentication module
+
+Authentication is implemented with Supabase Auth. Pages under `src/app/auth/` provide login, signup, forgot-password, and reset-password flows. The `src/middleware.ts` file refreshes the session on each request and enforces access control:
+
+- Unauthenticated users are redirected to `/auth/login` when accessing protected workspace routes.
+- Authenticated users are redirected away from login/signup to the home hub.
+- Disabled users (flag in `profiles.is_disabled`) are blocked from the workspace.
+
+Sign-out is handled via `POST /api/auth/signout`. Passwords are hashed by Supabase; the application never stores plain-text credentials (NFR-05).
+
+5.4.2 Content generation module (source-grounded synthesis)
+
+This module fulfils the core functional requirements FR-01 (URL input), FR-02 (scraping), and FR-03 (AI synthesis).
+
+Client flow: On the Overview page (`DashboardClient.tsx`), the user enters up to five URLs in the Research sources panel, selects tone, length, and output language, and triggers generation via Research full draft, Generate outline, or Check facts. The client sends `POST /api/generate` with `{ urls, tone, length, language }`.
+
+Server flow (`/api/generate/route.ts`):
+
+1. Verify user session; reject disabled accounts and maintenance mode.
+2. Enforce daily generation limit from `system_settings`.
+3. Validate input with `generateRequestSchema` (Zod).
+4. Call `crawlUrls()` in `src/lib/crawl/index.ts`, which posts each URL to Spider.cloud and returns markdown text or per-URL errors (10-second timeout per URL).
+5. Call `synthesizeContent()` in `src/lib/llm/index.ts`, which builds a system prompt requiring facts-only output, specified tone, length band, and output language, then invokes GPT-4o.
+6. Persist a new row in `drafts` via `createDraft()`.
+7. Log the attempt in `generation_logs` (success or failure, crawl counts).
+8. Return draft JSON and crawl status to the client.
+
+The editor is updated with the generated title and body. An Undo control restores the pre-generation editor state from a client-side stack (up to 25 steps).
+
+Note on assistant buttons: All three AI buttons use the same generation endpoint; they differ in preset tone/length before the request. This is documented as a design simplification for the prototype.
+
+5.4.3 Draft management module
+
+Drafts are stored in the `drafts` table. API routes:
+
+- `GET/POST /api/drafts` — list and create drafts.
+- `GET/PUT/DELETE /api/drafts/[id]` — read, update, delete by id.
+
+Server functions in `src/lib/drafts/index.ts` always scope queries with `user_id = auth.uid()` so RLS and application logic align. The Overview editor performs debounced auto-save (~1.3 s after typing) when a draft id exists, and manual save via button or Ctrl+S. Saved drafts are listed on `/saved-drafts` and can be reopened with `/drafts?draftId=<uuid>`.
+
+5.4.4 Research library module
+
+The Research Library (`/research`, `ResearchLibraryClient.tsx`) allows users to save sources with URL, optional title, notes, and tags. CRUD operations use `/api/research-library` and `/api/research-library/[id]`. Users can select sources and open them in Overview with pre-filled URLs (`/drafts?prefillUrls=...`), supporting the research-to-draft workflow identified in Chapter 2.
+
+5.4.5 Templates module
+
+Built-in story templates are defined in `src/lib/templates/builtins.ts` (wire brief, news feature, opinion column, Q&A, investigative, newsletter, etc.). The Templates page links to `/drafts?template=<id>`, which pre-fills title, section outline with placeholders, tone, and length. Templates are intended primarily for manual structured writing; AI generation uses tone/length defaults but does not yet inject the outline into the LLM prompt (see Section 7.3).
+
+5.4.6 User preferences module
+
+The Settings page (`/settings`, `SettingsClient.tsx`) updates display name, default tone, length, and output language via `PATCH /api/user/preferences`, stored in Supabase `user_metadata`. Users can export all drafts as JSON from the client. These defaults apply when opening a blank Overview session.
+
+5.4.7 Administration module
+
+Administrative features were added to support monitoring and governance:
+
+ Feature | Implementation |
+---------|----------------|
+ Role detection | `ADMIN_EMAILS` env or `user_metadata.role = admin` |
+ User management | List auth users, promote/demote admin, disable accounts |
+ Draft moderation | Search and delete any user's draft (service role) |
+ AI audit logs | `generation_logs` table populated on each generate call |
+ System settings | Maintenance mode, announcement banner, daily generate cap |
+
+Admin APIs live under `/api/admin/*` and use `createAdminClient()` with the service role key. The admin UI is implemented in `src/components/admin/`.
+
+5.4.8 Output language enhancement
+
+Beyond the original SRS (English-only), the implementation supports sixteen output language options including Auto (match sources), English, Bahasa Malaysia, Chinese, Tamil, and others. The selected language is passed to the LLM system prompt via `src/lib/output-languages.ts`.
+
+5.5 Database and Security Implementation
+
+Three SQL migrations define the schema:
+
+1. 001_create_drafts_table.sql — `drafts` table, indexes, RLS policies, `updated_at` trigger.
+2. 002_research_sources.sql — `research_sources` table with RLS.
+3. 003_admin.sql — `profiles`, `generation_logs`, `system_settings`, trigger on new auth users.
+
+Security measures implemented:
+
+- RLS on all user tables (select/insert/update/delete own rows only).
+- API keys for OpenAI and Spider only on server routes.
+- Middleware session refresh and route protection.
+- Admin operations isolated to service-role server client.
+- Input validation with Zod on all mutating API endpoints.
+
+Figure 5.2 (recommended): Updated ERD including `research_sources`, `profiles`, `generation_logs`, and `system_settings`.
+
+5.6 Chapter Summary
+
+Chapter 5 described the translation of the Chapter 4 design into the Draftly web application. The Next.js full-stack architecture, Supabase data model, Spider.cloud crawling, and GPT-4o synthesis were integrated into a cohesive journalist workflow with research library, templates, settings, and admin oversight. The next chapter evaluates the implementation through structured testing.
+
+---
+
+CHAPTER 6
+TESTING AND EVALUATION
+
+6.1 Introduction
+
+Testing verifies that the implemented system meets the functional and non-functional requirements specified in Chapter 3 and behaves reliably under normal and edge-case usage. This chapter outlines the testing strategy, test environment, test cases, results, and discussion. Testing was conducted during the implementation phase and prior to demonstration to the supervisor and examiners.
+
+6.2 Testing Strategy
+
+A combination of testing levels was applied, as shown in Table 6.1.
+
+Table 6.1 Testing levels
+
+ Level | Focus | Method |
+-------|--------|--------|
+ Functional testing | Features vs FR-01–FR-07 | Manual test cases with expected results |
+ API / integration testing | `/api/generate`, drafts, research, admin | Manual requests via browser and fetch |
+ Non-functional testing | Security, performance, usability | Checklist against NFRs |
+ User acceptance testing (UAT) | Realistic journalist workflow | Scenario walkthrough with sample news URLs |
+
+Automated unit test suites were not the primary deliverable for this prototype; emphasis was placed on end-to-end workflow validation aligned with FYP demonstration goals.
+
+6.3 Test Environment
+
+ Item | Configuration |
+------|----------------|
+ Application | Next.js dev/prod build, localhost:3000 |
+ Database | Supabase cloud project (PostgreSQL) |
+ Browser | Google Chrome (latest) |
+ Test accounts | Standard user + admin (`ADMIN_EMAILS`) |
+ Sample sources | Public news/article URLs (HTTP/HTTPS) |
+
+6.4 Functional Testing
+
+Table 6.2 records representative functional test cases and outcomes.
+
+Table 6.2 Functional test cases
+
+ ID | Requirement | Test procedure | Expected result | Result |
+----|-------------|----------------|-----------------|--------|
+ FT-01 | FR-01 URL input | Enter 1–5 valid URLs in Research sources | URLs accepted; generate enabled | Pass |
+ FT-02 | FR-01 validation | Submit generate with zero URLs | Error: at least one URL required | Pass |
+ FT-03 | FR-02 scraping | Generate using 2 public article URLs | Crawl status shows OK; content in draft | Pass |
+ FT-04 | FR-02 failure | Use invalid or blocked URL | Crawl Failed shown; error if no successful crawl | Pass |
+ FT-05 | FR-03 synthesis | Complete successful generate | Markdown draft in editor; saved to DB | Pass |
+ FT-06 | FR-04 tone/length | Change tone and length; regenerate | Output style/length reflects settings | Pass |
+ FT-07 | FR-06 editor | Edit title/body; wait 1.3 s | Live save: synced | Pass |
+ FT-08 | FR-06 save | Click Save draft / Ctrl+S | Draft persisted; reopen from Saved drafts | Pass |
+ FT-09 | FR-07 export | Settings → export drafts | JSON file download | Pass |
+ FT-10 | Auth | Signup, login, logout | Session enforced; protected routes blocked when logged out | Pass |
+ FT-11 | Research library | Add source; Open in Overview | URLs prefilled in Overview | Pass |
+ FT-12 | Templates | Use template; open Overview | Outline pre-filled in editor | Pass |
+ FT-13 | Language | Set output language to Bahasa Malaysia; generate | Output predominantly in Malay | Pass* |
+ FT-14 | Undo | Generate; click Undo | Previous editor content restored | Pass |
+ FT-15 | Admin | Login as admin; open Users | User list loads (service role configured) | Pass |
+
+\*Quality depends on source language and model behaviour.  
+\*\*Fails with “User not allowed” if service role key is missing or incorrect.
+
+6.5 Integration and API Testing
+
+Key API endpoints were verified:
+
+ Endpoint | Test | Outcome |
+----------|------|---------|
+ POST /api/generate | Valid session + URLs | 200, draft + crawlResults |
+ POST /api/generate | No session | 401 Unauthorized |
+ POST /api/generate | Maintenance mode on | 503 with message |
+ GET /api/drafts | Authenticated | Returns user's drafts only |
+ PUT /api/drafts/[id] | Update own draft | 200; updated_at changes |
+ GET /api/admin/users | Non-admin session | 403 Forbidden |
+ GET /api/admin/users | Admin session | 200, users array |
+
+Integration between Spider.cloud, OpenAI, and Supabase was validated through successful end-to-end generation runs logged in `generation_logs`.
+
+6.6 Non-Functional Testing
+
+Table 6.3 Non-functional test summary
+
+ ID | Requirement | Test | Result |
+----|-------------|------|--------|
+ NFT-01 | NFR performance | Generate with 3 URLs; observe time | Typically 15–45 s (network + LLM dependent); acceptable for prototype |
+ NFT-02 | NFR security | Attempt access `/drafts` without login | Redirect to login |
+ NFT-03 | NFR security | User A cannot open User B draft id | Not found / denied |
+ NFT-04 | NFR security | API keys not visible in browser network tab for OpenAI/Spider | Keys only on server |
+ NFT-05 | NFR usability | Complete research→generate→edit→save in one session | Achievable without documentation |
+ NFT-06 | NFR reliability | Repeat generate after transient crawl failure | Graceful error message; no crash |
+
+6.7 User Acceptance Testing
+
+A UAT scenario was executed simulating a journalist covering a developing story:
+
+1. Log in and review home dashboard statistics.
+2. Save two article URLs in the Research Library.
+3. Open sources in Overview and run Research full draft with Formal tone and Medium length.
+4. Edit the lede and headline manually.
+5. Save draft and verify it appears under Saved drafts.
+6. Reopen draft via `draftId` link.
+
+UAT outcome: The participant completed the workflow without assistance. Feedback indicated that the Overview layout was intuitive and that source-grounded output was more trustworthy than a blank-prompt chatbot. Pain points noted: occasional crawl failure on social-media URLs and desire for template-aware AI generation.
+
+6.8 Test Results and Discussion
+
+Overall, functional requirements FR-01 through FR-07 are satisfied by the implemented prototype. The source-to-text pipeline operates as designed when target websites return readable HTML to the crawler. Failures concentrate on non-cooperative URLs (paywalls, heavy JavaScript, social platforms), which aligns with limitations stated in the SRS out-of-scope list.
+
+Non-functional requirements are partially met: security and usability goals are strong; performance is dependent on third-party APIs and was not formally benchmarked to a fixed SLA. Admin and logging features add operability beyond the original SRS scope.
+
+6.9 Chapter Summary
+
+Chapter 6 presented the testing strategy, test cases, and results for the AI Content Generator. Functional, integration, non-functional, and acceptance tests confirm that the system implements the planned journalist workflow and is suitable for demonstration and evaluation. Chapter 7 concludes the project and discusses achievements, limitations, and future work.
+
+---
+
+CHAPTER 7
+CONCLUSION
+
+7.1 Introduction
+
+This report has documented the full lifecycle of the AI Content Generator (Draftly) from problem identification through requirements, design, implementation, and testing. Chapter 7 synthesises the project outcomes, states the limitations observed during development and testing, recommends future enhancements, and provides final concluding remarks.
+
+7.2 Project Achievements
+
+The project objectives stated in Chapter 1 have been addressed as follows:
+
+ Objective | Achievement |
+-----------|-------------|
+ Automate multi-source research synthesis | Implemented via Spider.cloud crawl + GPT-4o synthesis from user URLs |
+ Reduce research-to-draft effort | UAT workflow completed in a single session with measurable time saving vs manual tab-reading |
+ Source-grounded accuracy | LLM prompt restricts facts to crawled content; hallucination risk reduced vs open-ended prompts |
+ Secure user workspace | Supabase Auth, RLS, draft and research persistence per user |
+ Usable journalist interface | Home hub, Overview editor, research library, templates, saved drafts |
+
+Deliverables completed:
+
+- Fully operational Next.js web application with authentication.
+- Overview editor with AI assistant, undo, auto-save, and multi-language output.
+- Research Library and built-in templates.
+- Administrator panel (users, drafts, logs, system settings).
+- Database migrations and documentation (`README_DATABASE_SETUP.md`).
+- Production build verified (`npm run build` successful).
+
+The system demonstrates a practical application of Multi-Document Summarization (MDS) concepts within a human-in-the-loop editorial model appropriate for journalism education and industry discussion.
+
+7.3 Limitations
+
+The following limitations were identified during implementation and testing:
+
+1. Crawl dependency: Generation quality depends on Spider.cloud successfully extracting text. Paywalled, JavaScript-heavy, or social-media URLs often fail.
+2. Template–AI gap: Selecting a template pre-fills the editor but does not instruct the AI to follow section headings; generation replaces the outline unless the user uses Undo or manual editing.
+3. Assistant button semantics: Research full draft, Generate outline, and Check facts share one generation pipeline with different length presets rather than distinct outline or fact-check algorithms.
+4. Scale: User listing and statistics use admin APIs suitable for small-to-medium user bases; large-scale deployment would require pagination and background jobs.
+5. SRS deviation: Multi-language output was added beyond the original English-only scope (Version 1.0 SRS); this is an enhancement but should be noted for documentation consistency.
+
+7.4 Future Work
+
+Recommended extensions for future versions:
+
+- Pass template structure into the generation prompt for template-faithful AI drafts.
+- Dedicated outline-only and claim-vs-source verification modes.
+- Improved extractors for difficult URLs (Readability APIs, publisher partnerships).
+- Collaborative newsroom features (shared research folders, editor roles).
+- Automated test suite (Jest/Playwright) and performance metrics dashboard.
+- Publishing integrations (WordPress, CMS export formats).
+
+7.5 Conclusion
+
+The digital journalism industry continues to face information overload while audiences expect rapid, accurate reporting. This project has demonstrated that a source-grounded AI writing workspace can be engineered with modern web and AI tools to support—not replace—the journalist. By anchoring generation to user-supplied URLs, Draftly prioritises factual grounding over unrestricted text generation and aligns with responsible use of Large Language Models.
+
+The journey from requirements (Chapter 3) and design (Chapter 4) to implementation (Chapter 5) and validation (Chapter 6) confirms that the proposed architecture is viable. The prototype is ready for demonstration, supervisor review, and further refinement in professional or academic settings.
+
+The project fulfils its goal of bridging web scraping, LLM synthesis, and secure cloud persistence into a single cohesive tool for journalists and bloggers, and establishes a foundation for continued development beyond the Final Year Project timeframe.
+
+REFERENCES
+N. Diakopoulos, Automating the News: How Algorithms Are Rewriting the Media. Cambridge, MA: Harvard University Press, 2019.
+
+S. Attfield, G. Kazai, and M. Lalmas, "Tasks and information seeking behaviors of journalists on the web," in Proceedings of the 3rd Interactive Information Access in Context Workshop (IIiX), 2010, pp. 2–8.
+
+[3] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser, and I. Polosukhin, "Attention is all you need," in Advances in Neural Information Processing Systems (NeurIPS), vol. 30, 2017.
+
+[4] G. Mark, D. Gudith, and U. Klocke, "The cost of interrupted work: more speed and stress," in Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, 2008, pp. 107–110.
+
+[5] Z. Ji, N. Lee, R. Frieske, T. Yu, D. Su, Y. Xu, E. Ishii, Y. Bang, A. Madotto, and P. Fung, "Survey of hallucination in natural language generation," ACM Computing Surveys, vol. 55, no. 12, pp. 1–38, 2023.
+
+V. Gupta, G. S. Lehal, and M. K. Jindal, "A survey on text mining techniques for web content extraction," in International Conference on Computational Techniques in Information and Communication Technologies (ICCTICT), 2016, pp. 433–438.
+[7] A. Graefe, "Guide to automated journalism," Tow Center for Digital Journalism, Columbia University, New York, NY, Rep. 2016.
+
+[8] C. Beckett, "New powers, new responsibilities: A global survey of journalism and artificial intelligence," LSE Polis, London, UK, 2019.
+
+[9] D. Das and A. F. T. Martins, "A survey on automatic text summarization," Language and Linguistics Compass, vol. 1, no. 6, pp. 573–598, 2007.
+
+[10] T. B. Brown, B. Mann, N. Ryder, M. Subbiah, J. Kaplan, P. Dhariwal, et al., "Language models are few-shot learners," in Advances in Neural Information Processing Systems (NeurIPS), vol. 33, 2020, pp. 1877–1901.
+
+[11] J. Carbonell and J. Goldstein, "The use of MMR, diversity-based reranking for reordering documents and producing summaries," in Proceedings of the 21st Annual International ACM SIGIR Conference on Research and Development in Information Retrieval, 1998, pp. 335–336.
+
+Jasper.ai, "How Jasper helps enterprise marketing teams," Jasper Official Documentation, 2024. [Online]. Available: https://www.jasper.ai/business.
+
+[13] L. Floridi and M. Chiriatti, "GPT-3: Its nature, scope, limits, and consequences," Minds and Machines, vol. 30, pp. 681–694, 2020.
+
+G2, "Copy.ai Reviews & Product Details," G2 Crowd Software Reviews, 2024. [Online]. Available: https://www.g2.com/products/copy-ai/reviews.
+
+[15] Q. Yang, "The limitations of AI in long-form content generation," Journal of Digital Media & Interaction, vol. 4, no. 2, pp. 45–52, 2023.
+
+TechRadar Pro, "Frase.io review: SEO content optimization tool," TechRadar, 2024. [Online]. Available: https://www.techradar.com/reviews/frase-io.
+
+[17] Z. Ji, N. Lee, R. Frieske, T. Yu, D. Su, Y. Xu, E. Ishii, Y. Bang, A. Madotto, and P. Fung, "Survey of hallucination in natural language generation," ACM Computing Surveys, vol. 55, no. 12, pp. 1–38, 2023.
+
+[18] W. S. El-Kassas, C. R. Salama, A. A. Rafea, and H. K. Mohamed, "Automatic text summarization: A comprehensive survey," Expert Systems with Applications, vol. 165, p. 113679, 2021.
+
+
+
+
+
+
+
+
+APPENDIX A: SOFTWARE REQUIREMENTS SPECIFICATIONS
+
+
+Software Requirements Specification
+for
+[AI Content Generator]
+[Version 1.0]
+Prepared by [Muhammd Nadzrin Sidqy]
+ [Date :November 4, 2025]
+
+Table of Contents
+1.	Introduction	7
+1.1	Purpose	7
+1.2	Project Scope and Product Features	7
+1.3	Definitions, Acronyms, and Abbreviations	8
+1.4	References	8
+1.5	Overview	10
+2.	Overall Description	10
+2.1	Product Perspective	10
+2.2	Product Functions	22
+2.3	User Classes and Characteristics	23
+2.4	Constraints	24
+2.5	Assumptions and Dependencies	25
+2.6	Apportioning of Requirements	27
+3.	System Features	28
+3.1	System Feature: User Authentication	28
+3.2	System Feature: AI content generation	29
+3.3	System Feature: Draft editor and export	29
+3.4	System Feature: History management	30
+4.	Other Nonfunctional Requirements	31
+4.1	Perfomance requirement	31
+4.2	Logical database requirements	32
+4,3	Design constraints	33
+4.4	Software system attributes	33
+
+
+
+
+
+Revision History
+
+
+
+Introduction
+
+1.1 Purpose 
+The purpose of this Software Requirements Specification (SRS) is to provide a comprehensive and rigorous description of the AI-Powered Content Generator for journalists and bloggers. This document serves as the authoritative agreement between the developer and the stakeholders regarding the software's functional and non-functional requirements. It delineates the system's capabilities, interfaces, and constraints, serving as the primary blueprint to guide the design, implementation, and testing phases
+
+1.2 Project Scope and Product Features
+The software product to be produced is named the AI-Powered Content Generator. It is a specialized web-based application designed to facilitate the rapid synthesis of journalistic content from multiple external sources.
+
+Project Scope :
+
+In Scope (What the system will do):
+
+Multi-Source Ingestion: The system will accept multiple user-provided URLs (up to 5 unique links) as the primary input for content generation.
+
+Automated Scraping & Cleaning: The system will automatically fetch the HTML content from these URLs, extracting the main body text while filtering out advertisements, navigation menus, and boilerplate code.
+
+Source-Grounded Synthesis: The system will utilize a Large Language Model (LLM) to analyze the extracted text and generate a coherent, non-redundant article draft that strictly adheres to the facts found in the provided sources.
+
+Draft Management: The system will provide a secure user environment (via login) where generated drafts are automatically saved, can be edited via a Rich Text Editor, and exported for publishing.
+
+Customization: The system will allow users to configure the output parameters, specifically the tone (e.g., Formal, Casual) and the approximate length of the article.
+
+Out of Scope (What the system will NOT do):
+
+Multimedia Generation: The system will not generate, analyze, or process images, videos, or audio files found within the source URLs. It handles text only.
+
+Paywall Penetration: The system will not attempt to bypass authentication walls, strict paywalls, or complex CAPTCHA challenges on target websites.
+
+Multi-Language Support: The system will not support translation or generation in languages other than English in this release (Version 1.0).
+
+Primary Objective of the project: To automate the cognitive-heavy tasks of reading, summarizing, and synthesizing multiple documents, thereby reducing the time required to move from research to a working draft.
+
+Key benefits of the project : 
+
+Efficiency: Reduces the "Research-to-Draft" cycle time by approximately 50%, allowing writers to focus on high-level editorial tasks.
+
+Accuracy (Reduced Hallucination): Unlike generic AI writing tools that generate content from open-ended prompts, this application grounds its output in specific, user-verified URLs, significantly increasing factual reliability.
+
+Workflow Streamlining: Consolidates the fragmented process of opening multiple tabs and manually copy-pasting notes into a single, unified dashboard interface.
+
+1.3 Definitions, Acronyms, and Abbreviations
+This subsection provides definitions for all technical terms, acronyms, and abbreviations used throughout this Software Requirements Specification (SRS) to ensure clear interpretation of the document.
+Below is the list of the acronyms :
+Below is the list of the acronyms :
+
+1.4 References
+
+IEEE Recommended Practice for Software Requirements Specifications
+
+Report Number: IEEE Std 830-1998
+
+Date: 1998 (Reaffirmed 2009)
+
+Publishing Organization: Institute of Electrical and Electronics Engineers (IEEE)
+
+Source: https://standards.ieee.org/standard/830-1998.html
+
+
+OpenAI API Documentation
+
+Title: Chat Completions API & Text Generation Models Guide
+
+Date: 2024 (Continuous Update)
+
+Publishing Organization: OpenAI
+
+Source: https://platform.openai.com/docs/api-reference
+
+
+Next.js Documentation
+
+Title: Getting Started with Next.js (App Router)
+
+Date: 2024 (Version 14.x)
+
+Publishing Organization: Vercel Inc.
+
+Source: https://nextjs.org/docs
+
+
+Supabase Documentation
+
+Title: Supabase Database and Authentication Guide
+
+Date: 2024 (Continuous Update)
+
+Publishing Organization: Supabase Inc.
+
+Source: https://supabase.com/docs
+
+
+
+Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing
+
+Report Number: RFC 7230
+
+Date: June 2014
+
+Publishing Organization: Internet Engineering Task Force (IETF)
+
+Source: https://datatracker.ietf.org/doc/html/rfc7230.
+1.5 Overview
+The remainder of this Software Requirements Specification (SRS) is organized into three primary sections, each detailing specific aspects of the AI-Powered Content Generator project.
+
+Section 2 (Overall Description) provides a high-level perspective of the software product. It describes the system's context, the major functions it performs, the characteristics of the intended users (journalists and bloggers), and the general constraints and assumptions affecting development.
+
+Section 3 (System Features) specifies the detailed functional requirements of the system. This includes the specific logic for user authentication, the web scraping mechanism, the AI integration for content synthesis, and the history management features.
+
+Section 4 (Other Nonfunctional Requirements) addresses the quality attributes of the system. It defines the requirements for performance (latency), security (data protection), and software quality attributes such as reliability and availability.
+
+Overall Description
+
+2.1 Product Perspective
+The AI-Powered Content Generator is a self-contained, web-based software product. It is not a sub-component of a larger software suite but operates as an independent SaaS (Software as a Service) platform. While it functions independently as a user application, it relies heavily on a distributed architecture involving interaction with external services (APIs) to fulfill its core processing capabilities.
+
+The relationship between the system and its external environments is illustrated in the block diagram below:
+
+
+The software operates within the following constraints and interfaces:  
+
+2.1.1 System interfaces 
+The AI-Powered Content Generator relies on interactions with several external systems and environments to function. This subsection lists these critical interfaces, the functionality they support, and the technical description of the interface.
+1. Web Browser (Client Interface)
+Functionality: The Web Browser acts as the primary host for the frontend application. It renders the User Interface (UI), captures user inputs (URLs, tone settings), and displays the final generated content. It is responsible for executing the client-side JavaScript (Next.js/React) logic.
+Interface Description: The system is designed to run on any modern, standards-compliant web browser (e.g., Chrome v90+, Firefox v88+, Safari v14+, Edge). Communication between the browser and the application server occurs via HTTPS (Hypertext Transfer Protocol Secure) over standard port 443. The interface renders standard HTML5, CSS3, and ECMAScript 6+ (JavaScript).
+2. OpenAI API (AI Processing Interface)
+
+Functionality: This interface provides the core intelligence of the system. The application sends cleaned text data and prompt instructions to this system and receives the synthesized, abstractive summary in return.
+Interface Description: The system communicates with the OpenAI backend via a RESTful API. Data is exchanged using JSON (JavaScript Object Notation) payloads. Authentication is handled via a secure Bearer Token (API Key) stored on the server side. The specific endpoint used is the Chat Completions API (POST https://api.openai.com/v1/chat/completions).
+3. Supabase Platform (Database & Auth Interface)
+Functionality: This interface handles two critical functions: managing User Authentication (signup, login, session tokens) and providing persistent storage for User History (saving generated drafts).
+Interface Description: The application interfaces with Supabase using the supabase-js client library, which acts as a wrapper for Supabase's REST and Realtime APIs. It connects to a hosted PostgreSQL database. Secure connections are maintained using API keys (public anon key for client-side, private service_role key for server-side operations) and JWT (JSON Web Tokens) for user sessions.
+4. Target Websites (Data Source Interface)
+Functionality: The system must interface with arbitrary third-party websites provided by the user to "read" their content. The Web Scraper module retrieves the raw HTML structure of these pages to extract the body text.
+Interface Description: The system creates outbound HTTP/1.1 GET requests to the user-specified URLs. It receives standard HTML documents in response. The system parses the Document Object Model (DOM) of these external pages to filter and sanitize text content. 
+2.1.2 User interfaces 
+This subsection specifies the logical characteristics of the interface between the AI-Powered Content Generator and its users (journalists and bloggers). It defines the layout structure and the optimization strategies required to ensure high usability for non-technical professionals.
+
+ Logical Characteristics The user interface is designed as a responsive Single Page Application (SPA) to ensure seamless transitions without page reloads.
+
+Screen Format:
+
+The interface shall be optimized for Desktop displays (1920x1080 resolution) as the primary workspace for drafting articles.
+
+The interface shall remain functional on Tablet/Mobile devices (min-width 375px) using a responsive grid system (e.g., stacking columns vertically).
+
+Page Layout Strategy (The Dashboard):
+
+Navigation: A persistent top-level navigation bar containing the Logo, "History" link, and "User Profile/Logout" dropdown.
+
+Workspace (Split View): The main dashboard shall utilize a Two-Column Split Layout:
+
+Left Panel (Input & Configuration): Contains a dynamic list of input fields for Source URLs (add/remove functionality) and a configuration panel for "Tone" (Dropdown) and "Length" (Slider).
+
+Right Panel (Output & Editor): Occupies the majority of the screen space (approx. 65%). It houses the Rich Text Editor (WYSIWYG) where the generated content appears.
+
+Menus and Controls:
+
+Action Buttons: Primary actions (e.g., "Generate Content") shall be visually distinct using high-contrast colors (Primary Brand Color). Secondary actions (e.g., "Clear Form") shall be subtle (Outline or Text-only).
+
+Rich Text Toolbar: The editor shall provide a standard toolbar fixed to the top of the output pane, including bold, italic, heading levels (H1, H2), and bullet points.
+
+2. Usability Optimization (Do's and Don'ts) To optimize the interface for journalists who are often working under strict deadlines, the following interface standards apply:
+
+System Behavior :
+
+Visual Feedback: The system must display a clearly visible "Loading Spinner" or "Progress Bar" immediately upon clicking "Generate" to indicate that the AI is processing. This is critical given the expected latency (30-45 seconds) of AI generation.
+
+Non-Technical Error Messages: Error messages must be descriptive and actionable.
+
+Correct: "We could not read the content from [URL]. The site may be blocked by a paywall."
+
+Incorrect: "Error 403 Forbidden: Scraping Module Exception."
+
+Input Persistence: If a generation fails, the system must retain the URLs and settings entered by the user so they do not have to re-type them.
+
+System Constraints:
+
+No Clutter: The interface shall not display debugging information (JSON dumps) or SEO metadata graphs unless explicitly requested by the user.
+
+No Unexpected Navigation: The system shall warn the user ("You have unsaved changes") if they attempt to navigate away from the dashboard while an article is being edited.
+
+3. Verifiable Usability Requirements The interface design is governed by the following verifiable performance benchmarks:
+
+Learning Curve: A professional journalist with standard computer literacy (Internet/Word Processing skills) shall be able to generate and export their first article within 5 minutes of their first login, without requiring an external manual.
+
+Task Efficiency: An experienced user shall be able to initiate a new generation request (paste 3 URLs, select tone, click Generate) in under 30 seconds.
+
+Accessibility: All form inputs must be navigable via keyboard (Tab key) to support rapid data entry.)  
+
+2.1.3 Hardware interfaces 
+The AI-Powered Content Generator is a cloud-native web application. It does not interface directly with specific hardware peripherals (e.g., sensors, printers) but relies on the underlying hardware abstraction layer provided by the client device's Operating System and Web Browser.
+The specific hardware interface requirements are as follows:
+1. Client Device Support The software is designed to be hardware-agnostic and shall function on any general-purpose computing device that supports a modern web browser.
+Supported Device Classes:
+Desktop/Workstations: PC (Windows/Linux) and Macintosh (macOS).
+Portable Computers: Laptops and Notebooks.
+Mobile Devices: Tablets (e.g., iPad, Android Tablets). Note: Smartphones are supported but are not the primary target interface due to screen real estate constraints.
+
+2. Display Interfaces (Logical Characteristics)
+Resolution: The software interface is responsive but optimized for a minimum effective display width of 1024 pixels (Landscape Mode).
+Color Depth: The User Interface (UI) utilizes a standard sRGB color space. The hardware display must support at least 16-bit color to correctly render the UI elements and text contrast.
+
+3. Network Interfaces
+Connectivity: The software requires an active, persistent connection to the Internet via the device’s Network Interface Card (NIC) (Ethernet or Wi-Fi).
+Protocol: The software communicates over the TCP/IP stack. It specifically requires access to Port 443 (HTTPS) for secure encrypted communication with the hosting server (Vercel) and the backend APIs (Supabase/OpenAI).
+Bandwidth: A minimum stable downstream bandwidth of 1.5 Mbps (3G/4G speeds) is required to ensure the responsive loading of web assets and the timely transmission of scraped data.
+
+4. Input Devices
+Keyboard: Standard QWERTY keyboard support (Physical or Virtual) is required for URL input and text editing.
+Pointing Device: Mouse, Trackpad, or Capacitive Touch entry is required for navigation and text selection. The software supports standard pointer events (Click, Hover, Drag-Select).. 
+
+2.1.4 Software interfaces 
+This subsection specifies the required software products and external systems that the AI-Powered Content Generator interacts with. The system relies on these components for core processing, data storage, and execution.
+1. AI Processing Engine
+Name: OpenAI Chat Completions API
+Mnemonic: LLM-ENGINE
+Specification Number: RFC 8259 (JSON Data Interchange)
+Version Number: v1 (Model: gpt-3.5-turbo or gpt-4)
+Source: OpenAI (https://openai.com)
+Interface Discussion: The purpose of this interfacing software is to perform the core Natural Language Processing (NLP) tasks. The Application Server sends the cleaned text extracted from user URLs to this engine to perform abstractive summarization and content synthesis, returning a coherent article draft.
+Interface Definition: The interface is defined as a RESTful web service.
+Message Content: The request body contains a JSON object with the model, messages (system prompt + user content), and temperature parameters. The response contains a JSON object with the generated text in the choices array.
+Format: Standard JSON over HTTPS (Port 443).
+Reference: This interface is fully documented in the OpenAI API Reference [See Section 1.4, Ref #2].
+
+2. Database Management System (DBMS)
+Name: Supabase (PostgreSQL)
+Mnemonic: DBMS-CLOUD
+Specification Number: ISO/IEC 9075 (SQL Standard)
+Version Number: PostgreSQL 15.x
+Source: Supabase Inc. (https://supabase.com)
+Interface Discussion: The purpose of this interfacing software is to provide persistent storage for user accounts (users table) and the history of generated drafts (drafts table). It also manages session tokens for user authentication.
+Interface Definition: The interface is abstracted via the supabase-js client library, which communicates with the Supabase REST API.
+Message Content: The application sends function calls (e.g., supabase.from('drafts').insert({...})) which are translated into SQL transactions. The response is a JSON object containing the inserted/requested data or error codes.
+Format: JSON over HTTPS (Port 443) / WebSocket (for Realtime subscriptions).
+Reference: This interface is defined in the Supabase Database Guide [See Section 1.4, Ref #5].
+
+3. Server-Side Runtime Environment
+Name: Node.js
+Mnemonic: NODE-RUNTIME
+Specification Number: ECMAScript 2023 (Language Spec)
+Version Number: 18.x LTS (Long Term Support) or higher
+Source: OpenJS Foundation (https://nodejs.org)
+Interface Discussion: The purpose of this software is to provide the server-side execution environment for the Next.js API Routes. It is required to run the Web Scraper module, which cannot run in a standard client browser due to Cross-Origin Resource Sharing (CORS) restrictions.
+Interface Definition: The interface operates as the hosting environment for the application code.
+Message Content: Standard JavaScript execution.
+Format: Internal system calls.
+Reference: Documented in the Node.js API Documentation..  
+
+4. Web Crawler Engine
+Name: Spider Crawl (Custom/Library Implementation)
+Mnemonic: SPIDER-BOT
+Specification Number: HTTP/1.1 (RFC 2616) / Robots Exclusion Protocol (RFC 9309)
+Version Number: 1.0
+Source: Internal Module / Open Source Library
+Interface Discussion: The purpose of this interfacing component is to autonomously navigate and fetch raw HTML content from the target URLs provided by the user. Unlike a simple fetcher, the Spider Crawl is responsible for handling HTTP headers, managing user-agents, and retrieving the full HTML document for processing.
+Interface Definition:
+Message Content:
+Input: A seed URL (or list of URLs) provided by the Application Server.
+Output: The raw, unparsed HTML string or a structured object containing the page body and metadata.
+Format: Internal function calls (e.g., spider.crawl(url)) or asynchronous process execution.
+Reference: The interface adheres to standard HTTP GET request protocols and respects robots.txt directives where applicable.
+
+2.1.5 Communications interfaces 
+This subsection specifies the communication protocols and standards used for data exchange between the client, the server, and external third-party services.
+1. Client-Server Communication Protocol
+Interface: The web browser (Client) communicates with the Next.js Application Server.
+Protocol: HTTPS (Hypertext Transfer Protocol Secure) over TCP/IP.
+Port: Standard Port 443.
+Description: All data in transit, including user credentials (during login) and generated content, is encrypted using TLS 1.2/1.3 (Transport Layer Security) to ensure data integrity and confidentiality.
+2. Application Programming Interface (API) Data Format
+Interface: Communication between the Backend Server and External Services (OpenAI, Supabase).
+Standard: REST (Representational State Transfer).
+Data Serialization: JSON (JavaScript Object Notation).
+Encoding: UTF-8 Character Encoding is enforced to support diverse character sets within the source articles.
+Description: Requests to the OpenAI API and Supabase utilize standard HTTP methods (GET, POST, PUT, DELETE). The payload body is formatted as a JSON object (MIME type: application/json).
+
+3. Web Crawling Communication
+Interface: The Spider Crawl engine communicating with Target Websites.
+Protocol: HTTP/1.1 or HTTP/2 (depending on the target server support).
+Description: The crawler initiates standard HTTP GET requests. It adheres to the Robots Exclusion Protocol by parsing the robots.txt file of the target domain (if available) to verify permission before extracting content.
+4. Real-time Communication (Supabase)
+Interface: Real-time updates for draft status (if applicable).
+Protocol: Secure WebSockets (wss://).
+Description: The application maintains a persistent WebSocket connection with Supabase to listen for database changes (e.g., confirming a successful save operation) without requiring a page refresh..  
+2.1.6 Memory constraints  
+This subsection specifies the limitations and characteristics regarding primary (RAM) and secondary (Storage) memory usage for both the client (user's device) and the server.
+1. Primary Memory (RAM) - Server Side
+Execution Limit: The system backend operates in a serverless environment (Next.js/Vercel). Each API Route execution (specifically the crawler and generation functions) is limited to 1024 MB (1 GB) of RAM.
+Processing Constraint: The Spider Crawl engine and text processing modules must optimize memory usage to stay within this limit. Attempting to process extremely large documents (e.g., loading a 10MB text file into memory) simultaneously may trigger an Out of Memory (OOM) error. The system implements a "chunking" strategy to process large texts in smaller segments.
+2. Primary Memory (RAM) - Client Side
+Browser Heap: The frontend is a Single Page Application (SPA). It is designed to operate efficiently within a standard browser memory footprint (typically < 200 MB per tab).
+UI Performance: The Rich Text Editor component is constrained to handle active drafts up to 20,000 words without causing significant "input lag" or browser freezing due to excessive DOM (Document Object Model) size.
+3. Secondary Memory (Storage) - Database
+Database Capacity: The Supabase (PostgreSQL) instance is provisioned with an initial storage capacity of 500 MB (Project Tier Limit).
+Constraint: To adhere to this limit, the system does not store binary media (images, videos) directly in the database. Only text data (articles, logs) and metadata are persisted.
+4. Local Storage (Client Cache)
+Browser Storage: The application utilizes the browser's localStorage API for caching non-critical user preferences (e.g., last selected Tone). This storage is strictly limited by the web browser to approximately 5 MB per domain. The system is programmed not to cache full article histories here to avoid hitting this quota. 
+2.1.7 Operations  
+This subsection specifies the operational modes and procedures required for the normal functioning of the system, including user interactions, automated processing, and data safety measures.
+1. Modes of Operation
+Interactive Mode (Primary): The system is designed primarily for User-Initiated Operations. All core functions—Scraping, Generation, and Editing—are triggered explicitly by user actions via the web interface. There are no "always-on" background services that run without a user request.
+Processing Mode (Wait State): Upon initiating a "Generate Content" request, the system enters a temporary processing mode. During this 30-60 second window, the user interface locks the "Generate" button to prevent duplicate requests while the Spider Crawler and AI Engine execute the task.
+
+ Periods of Operations
+Interactive Operations: The system supports 24/7 availability. Users can log in and interact with the dashboard at any time, provided they have an internet connection.
+Unattended Operations:
+Crawler Execution: Once the user submits URLs, the Spider Crawl engine operates unattended on the server to navigate and fetch data.
+Token Management: The system automatically manages API session tokens (refreshing Supabase auth tokens) in the background without user intervention.
+
+Data Processing Support Functions
+Input Sanitization: The system automatically runs validation operations on all user inputs. URLs are checked for validity (HTTP/HTTPS format) before the crawler is engaged.
+Content Filtering: Before sending data to the AI, the system performs an automated "cleaning" operation to strip HTML tags, scripts, and advertisements, ensuring only relevant text is processed.
+
+4. Backup and Recovery Operations
+Database Backups: The system relies on the managed backup operations provided by Supabase (Cloud Provider). Full database snapshots are taken automatically every 24 hours (Point-in-Time Recovery).
+Data Recovery: In the event of a catastrophic server failure, the system operations team can restore the database to the state of the last valid snapshot.
+Session Recovery: If a user accidentally closes the browser tab after generation but before saving, the system attempts to recover the text from the Local Storage cache upon the next login (if cached). 
+
+2.1.8 Site adaptation requirements 
+This subsection defines the specific data, initialization sequences, and configuration settings required to adapt the AI-Powered Content Generator for deployment in different hosting environments (e.g., Local Development vs. Production Cloud).
+
+1. System Initialization (Environment Variables) The software is designed to be environment-agnostic but requires specific cryptographic keys and API endpoints to function. These are not hard-coded but must be supplied via Environment Variables (.env) specific to the hosting "site" (server).
+
+The following initialization parameters must be configured before the software can launch:
+
+NEXT_PUBLIC_SUPABASE_URL: The unique URL for the connected database instance.
+NEXT_PUBLIC_SUPABASE_ANON_KEY: The public API key for client-side authentication.
+SUPABASE_SERVICE_ROLE_KEY: The private administrative key for server-side database operations.
+OPENAI_API_KEY: The private key authorizing access to the AI processing engine.
+
+2. Database Schema Initialization Before the software allows user interaction, the connected database "site" (Supabase instance) must be initialized with the specific schema required by the application.
+
+Initialization Sequence: The database must run the SQL Migration Script (V1.0) to create the users and drafts tables and establish the necessary Foreign Key relationships.
+Safety Limits: Row Level Security (RLS) policies must be enabled immediately upon initialization to ensure users can only access their own data.
+
+3. Operational Mode Configuration The software behavior adapts based on the detected operational environment:
+
+Development Mode (NODE_ENV=development): The system enables detailed error logging to the console and may bypass strict caching for easier debugging.
+Production Mode (NODE_ENV=production): The system suppresses detailed error logs (to prevent leaking sensitive stack traces), enables strict caching for performance, and enforces HTTPS redirection.
+
+4. Domain Adaptation
+
+CORS Configuration: The backend API must be adapted to accept requests only from the specific domain where the frontend is hosted (e.g., https://fyp-project.vercel.app). This "Allowed Origin" list must be updated if the site URL changes..  
+
+2.2 Product Functions
+
+This subsection provides a summary of the major functions that the AI-Powered Content Generator will perform. These functions are organized logically to reflect the user's workflow, from initial access to final content export.
+
+The system's functionality is divided into four primary modules :
+
+User Access and Security
+
+User Registration & Authentication: The system provides secure signup and login capabilities, ensuring that every user has a private, protected account.
+Session Management: The system maintains user sessions to prevent unauthorized access to private drafting history.
+
+2. Content Synthesis Engine (Core Function)
+
+Multi-Source Ingestion: The system accepts multiple URLs (web addresses) as input variables.
+Automated Web Crawling: The system autonomously visits the provided URLs to extract relevant body text while filtering out "noise" (ads, navigation menus).
+AI-Driven Summarization: The system processes the extracted text through a Large Language Model (LLM) to synthesize a single, cohesive article based on the user's selected "Tone" and "Length" settings.
+
+3. Drafting and Editing Workspace
+
+Rich Text Editing: The system provides an interactive editor allowing users to manually refine, format (bold, italic, headers), and correct the AI-generated draft.
+Export Utilities: The system allows users to export the final content by copying it to the clipboard or downloading it as a text file.
+
+4. History and Data Persistence
+
+Auto-Save: The system automatically saves generated drafts to the cloud database.
+History Retrieval: The system allows users to view a chronological list of their past work and reload previous drafts into the editor.
+
+2.3 User Classes and Characteristics
+This subsection describes the general characteristics of the intended users of the AI-Powered Content Generator. Understanding these characteristics is crucial, as they directly influence the user interface design (Section 3) and the non-functional requirements (Section 4).
+
+The system is designed for a single primary user class: The Digital Content Creator.
+
+1. Primary User: Digital Journalist / Blogger
+
+Education Level: Generally high. Most users will possess a Bachelor's degree or higher in Journalism, Communications, English Literature, or Media Studies. They are proficient in language, grammar, and editorial standards.
+Technical Expertise: Low to Moderate.
+They are highly proficient in standard office software (Microsoft Word, Google Docs) and Content Management Systems (WordPress, Ghost).
+They are likely not proficient in computer programming, debugging, or complex API configurations. They view software as a tool to achieve a result, not something to tinker with.
+Domain Experience: High. They are experts in research, fact-checking, and narrative construction. They are accustomed to working under tight deadlines (e.g., breaking news cycles).
+
+2. Impact on System Requirements These characteristics dictate several specific requirements defined later in this document:
+
+Usability over Customizability: Because the user is not a developer, the interface must strictly follow the "3-Click Rule" (Login -> Paste Link -> Generate). Complex configuration options (like AI "Temperature" or "Top-P" settings) must be hidden or abstracted behind simple "Tone" labels.
+Error Handling: Since users lack technical debugging skills, system errors (e.g., a failed crawl) must be presented in plain, non-technical English with actionable advice, rather than displaying raw JSON error codes.
+Efficiency: Because the user often works under deadline pressure, the system performance requirement (Section 4.1) prioritizes speed of generation over advanced, time-consuming deep analysis.
+
+2.4 Constraints
+This subsection describes the specific constraints and limitations that will affect the design and development of the AI-Powered Content Generator.
+
+Regulatory and Policy Constraints
+
+Data Privacy (GDPR/PDPA): The system stores user email addresses. Development must strictly adhere to data protection regulations. Passwords must never be stored in plain text; they must be hashed using industry-standard algorithms (managed via Supabase Auth).
+OpenAI Usage Policy: The system must not generate content that violates OpenAI’s usage policies (e.g., hate speech, violence, illegal acts). The developer must implement a moderation check or error handling if the API refuses a request due to policy violations.
+Copyright Compliance: The web crawler must respect the robots.txt file of target websites. The system is constrained to only scrape publicly available data and must not attempt to bypass login walls or scrape copyrighted content behind paywalls.
+
+2. Hardware and Execution Limitations
+
+Serverless Function Timeouts: The backend is hosted on a serverless platform (Vercel). The content generation process (Scraping + AI Synthesis) must complete within the 60-second execution timeout limit typically imposed by such platforms. This constrains the complexity of the scraping logic; if a process takes too long, it will be terminated.
+Memory Limits: The Spider Crawler must operate within a 1024 MB RAM limit. It cannot load massive HTML DOM trees into memory simultaneously.
+
+3. Interface and Connectivity Constraints
+
+API Rate Limiting: The system is constrained by the rate limits imposed by the OpenAI API (Tokens per Minute). The developer must implement "Exponential Backoff" error handling to manage 429 Too Many Requests errors gracefully.
+Dependency Reliability: The system is entirely dependent on the uptime of the OpenAI API and Supabase. If these services experience an outage, the application's core features will cease to function. The software cannot "failover" to a local AI model due to hardware limitations.
+
+4. Higher-Order Language Requirements
+
+Technology Stack: To ensure maintainability and compatibility with the student's skill set, the system must be developed using Next.js (React framework) for the frontend and Node.js for the backend logic.
+Language: The source code should be written in TypeScript or JavaScript (ES6+) to ensure type safety and modern syntax standards.
+
+5. Safety and Security Considerations
+
+Secret Key Management: The OpenAI API Key is a critical secret. It is a strict constraint that this key must never be exposed to the client-side browser code. It must effectively remain in server-side environment variables.
+Input Sanitization (XSS): The system scrapes untrusted HTML from external websites. Before this content is displayed to the user or sent to the AI, it must be rigorously sanitized to prevent Cross-Site Scripting (XSS) attacks.
+
+6. Criticality of the Application
+
+Non-Critical System: This is a productivity tool, not a safety-critical system. Failures in generation (e.g., a failed crawl) are acceptable provided they are communicated clearly to the user and do not result in data loss of previously saved drafts. 
+
+2.5 Assumptions and Dependencies
+This subsection lists the critical assumptions and external dependencies that underpin the requirements specified in this document. If any of these assumptions prove incorrect or if the external dependencies change, the requirements outlined in this SRS may need to be modified.
+
+2.5.1 Assumptions
+1. Source Content Format: It is assumed that the URLs provided by the user point to standard HTML web pages containing extractable text. The system assumes the input is not a binary file (PDF, DOCX) or an image-based site (e.g., Instagram, Pinterest), as the current scope does not support OCR or file parsing.
+2. English Language Input: It is assumed that the content on the target websites is written in the English language. While the AI model is capable of translation, the current scraping and processing logic is optimized for English sentence structures.
+3. Public Accessibility: It is assumed that the target URLs are publicly accessible and do not require specific user credentials (login), VPN access, or IP whitelisting to view.
+4. Browser Capabilities: It is assumed that the end-user has JavaScript enabled in their web browser. The application's dashboard (built in React) will not function if JavaScript is disabled.
+
+2.5.2 Dependencies
+1. OpenAI API Availability: The core functionality of "Content Generation" is entirely dependent on the continued availability and stability of the OpenAI API.
+Impact: If OpenAI deprecates the gpt-3.5-turbo model or experiences significant downtime, the system will fail to generate content.
+Supabase Platform: The system relies on Supabase for Database-as-a-Service (PostgreSQL) and Authentication-as-a-Service.
+Impact: Any changes to Supabase's pricing tier (e.g., pausing free tier projects) or API structure will require immediate reconfiguration of the backend.
+Internet Connectivity: As a cloud-native SaaS application, the system has a hard dependency on a continuous Internet connection.
+Impact: There is no "Offline Mode." If the user loses connection, they cannot save drafts or generate new content.
+Third-Party Website Structure: The scraping module depends on the structural consistency of standard web pages.
+Impact: If a significant portion of the web shifts to entirely client-side rendered content (shadow DOM) that hides text from standard HTTP requests, the Spider Crawl engine may require a major upgrade to a headless browser architecture (e.g., Puppeteer), which would alter the hardware requirements (Section 2.1.6).
+
+2.6 Apportioning of Requirements
+This subsection identifies requirements that are considered beyond the scope of the initial release (Version 1.0). These features are deferred to future versions of the system to manage development complexity and ensure the timely delivery of the core functional prototype for the Final Year Project.
+1. Multilingual Support (Deferred to v2.0)
+Requirement: The ability to ingest source material in one language (e.g., Malay) and generate the article in another (e.g., English), or vice versa.
+Status: Version 1.0 is restricted to English-only input and output to ensure the accuracy of the Natural Language Processing (NLP) prompts.
+2. Document File Ingestion (Deferred to v2.0)
+Requirement: The ability for users to upload files (PDF, DOCX, TXT) as source material instead of providing URLs.
+Status: Version 1.0 focuses strictly on Web URL scraping. File parsing requires complex OCR (Optical Character Recognition) and text extraction libraries that are currently out of scope.
+3. SEO Optimization Tools (Deferred to v2.1)
+Requirement: Real-time analysis of the generated draft to suggest keywords, meta descriptions, and readability scores for Search Engine Optimization (SEO).
+Status: Version 1.0 focuses on content synthesis (readability and coherence) rather than search engine ranking metrics.
+4. Browser Extension Integration (Deferred to v3.0)
+Requirement: A companion Chrome/Edge extension that allows users to add the current webpage they are viewing to their "Draftly Sources" with a single click, without manually copying and pasting the URL.
+Status: This requires a separate codebase and build process; it is not included in the web dashboard scope.
+5. Direct CMS Publishing (Deferred to v3.0)
+Requirement: The ability to publish the finished article directly to platforms like WordPress, Medium, or LinkedIn via API integration.
+Status: Version 1.0 supports Copy-to-Clipboard and Text File Download only. 
+System Features
+
+System Feature: User Authentication
+
+3.1.1 Description and Priority
+Description: This feature manages the security and identity of the application. It allows users to register a new account, log in securely to access their private dashboard, and log out. It ensures that data (draft history) is partitioned per user.
+Priority: High (Critical for data privacy and personalization).
+3.1.2 Functional Requirements
+
+3.2 System Feature: AI Content Generation (Core)
+3.2.1 Description and Priority
+Description: This is the core logic of the application. It encompasses the input of source URLs, the autonomous "Spider Crawl" to fetch HTML content, the sanitization of that content, and the transmission to the AI engine to produce a synthesized draft.
+Priority: High (The primary function of the software).
+3.2.2 Functional Requirements
+
+3.3 System Feature: Draft Editor & Export
+3.3.1 Description and Priority
+Description: A Rich Text Editor (WYSIWYG) that allows the user to review the AI-generated text, make manual corrections, formatting changes (bold, headers), and export the final result.
+Priority: Medium (Essential for usability, but dependent on Feature 3.2).
+3.3.2 Functional Requirements
+
+3.4 System Feature: History Management
+3.4.1 Description and Priority
+Description: Allows users to view a list of all previously generated articles, sorted by date, and retrieve them for further editing.
+Priority: Medium (User retention feature).
+3.4.2 Functional Requirements
+
+Other Nonfunctional Requirements
+
+Performance requirements 
+This subsection specifies the static capacity and dynamic timing requirements placed on the software.
+
+4.1.1 Static Numerical Requirements (Capacity)
+NFR-1 (Concurrent Users): The system shall support a minimum of 50 simultaneous active users accessing the dashboard without service degradation (latency increasing by >20%).
+NFR-2 (System Throughput): The system shall be capable of handling 100 concurrent content generation requests per minute, utilizing the scalable serverless architecture of the Next.js backend.
+NFR-3 (Data Handling): The system shall support the ingestion of up to 25,000 characters (approx. 5,000 words) of raw text per source URL. Content exceeding this limit will be truncated to prevent Token Overflow errors in the AI model.
+NFR-4 (Storage Capacity): The database shall support the storage of at least 10,000 draft records per user account without query performance dropping below 200ms.
+
+ 4.1.2 Dynamic Numerical Requirements (Latency)
+NFR-5 (Response Time): The dashboard homepage shall load (First Contentful Paint) in less than 1.5 seconds on a standard 4G network.
+NFR-6 (Transaction Time): The "Generate Draft" transaction (Scraping + AI Synthesis) shall complete within 60 seconds for 95% of requests.
+NFR-7 (Spider Crawl Timeout): The web crawler shall strictly timeout and abort any individual URL connection that takes longer than 10 seconds to respond.
+
+4.2 Logical database requirements 
+This subsection specifies the logical requirements for the information stored in the Supabase (PostgreSQL) database. 
+
+4.2.1 Data Entities and Relationships 
+The system uses a relational database model with two primary entities:
+
+Users (users table): Managed by Supabase Auth. Stores unique User IDs (UUID), email addresses, and encrypted password hashes.
+
+Drafts (drafts table): Stores the generated content. Includes fields for Title, Body Content (HTML/Markdown), Source URLs (Array), Tone Used, Created Timestamp, and Updated Timestamp.
+
+Relationship: There is a One-to-Many relationship between Users and Drafts (One User can have multiple Drafts).
+
+4.2.2 Frequency of Use
+
+Read Operations: High frequency. Every time a user visits the dashboard, the system queries the drafts table.
+Write Operations: Moderate frequency. Occurs only when a user successfully generates or edits a draft.
+
+4.2.3 Integrity Constraints
+
+Foreign Key Constraint: The drafts table must contain a user_id column that references the id column of the users table.
+Referential Integrity: If a user account is deleted, all associated drafts must be automatically deleted (Cascade Delete) to prevent orphaned records.
+Data Retention: Data is retained indefinitely until the user explicitly deletes a draft or deletes their account.  
+
+4.3 Design constraints 
+4.3.1 Standards compliance 
+DC-1 (Code Style): The source code shall adhere to the Airbnb JavaScript Style Guide (enforced via ESLint).
+DC-2 (Data Naming):
+Database columns shall use snake_case (e.g., created_at).
+JavaScript variables shall use camelCase (e.g., createdAt).
+DC-3 (Audit Tracing): The system shall log all "Failed Generation Attempts" to a separate log file or table (including timestamp and error code) to allow developers to trace OpenAI API failures.
+
+4.3.2 Hardware Limitations
+DC-4 (Memory): The scraping process is constrained by the 1024 MB RAM limit of the Vercel Serverless Function environment. 
+
+4.4 Software system attributes 
+4.4.1 Reliability 
+ATTR-1 (Error Handling): The system shall catch 100% of "Network Timeout" and "404 Not Found" errors during the scraping phase and present a user-friendly warning rather than crashing the application.
+ATTR-2 (Input Robustness): The system shall not fail if the user inputs a broken or non-standard URL (e.g., missing http://); it should attempt to auto-correct or reject it gracefully.
+4.4.2 Availability 
+ATTR-3 (Uptime): The system shall target 99.0% availability during business hours (08:00 - 20:00).
+ATTR-4 (Recovery): In the event of a browser crash, the system shall recover the user's last edited text from localStorage upon the next login (Session Restoration).
+ 
+4.4.3 Security 
+ATTR-5 (Row Level Security): The database shall implement Row Level Security (RLS) policies. A user SELECT query must only return rows where auth.uid() == user_id.
+ATTR-6 (Secrets Management): The OpenAI API Key must never be committed to version control (Git). It must be injected via environment variables at build time.
+ATTR-7 (Communication): All data in transit must be encrypted via HTTPS (TLS 1.2+). 
+
+4.4.4 Maintainability 
+ATTR-8 (Modularity): The code must follow the Next.js App Router structure, separating Client Components (use client) from Server Components to ensure clear boundaries between UI logic and Backend logic.
+ATTR-9 (Documentation): All complex functions (specifically the Spider Crawler logic) must be commented with JSDoc standard annotations.
+
+4.4.5 Portability 
+ATTR-10 (Environment Independence): The application shall run on any system capable of running Node.js v18+. It should not rely on OS-specific binaries (e.g., Windows .exe or Linux-only packages) unless handled via Docker containers.
+ATTR-11 (Browser Support): The frontend shall function identically on Chrome, Firefox, Safari, and Edge (current stable versions).
+
+
+
+Appendix A: Title of Appendix
+Content of appendix. An appendix shall begin in a new fresh page.
+
+
+
+
+

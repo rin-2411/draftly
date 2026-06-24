@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+/* Tailwind v4: explicitly scan app/components/lib so utilities are generated */
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+
+/* Warm “newsroom” accent — use with arbitrary values, e.g. bg-[var(--journal-accent)] */
+:root {
+  --journal-warm-bg: #0d0a08;
+  --journal-surface: #161311;
+  --journal-card: #1a1614;
+  --journal-accent: #c9a06c;
+  --journal-accent-hover: #ddb77e;
+  --journal-ink: #1a120e;
+  --journal-link: #e4bc86;
+  --journal-link-hover: #f0d4a8;
+  --journal-muted: #edd9c8;
+  --journal-toast: #f0e6dc;
+}
+
+body {
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  background-color: var(--journal-warm-bg);
+  color: #faf7f2;
+}
